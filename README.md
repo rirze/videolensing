@@ -4,7 +4,7 @@ This is a demonstration that takes the video feed from your webcam and transform
 ## Acknowledgments
 The idea for this program is not mine, and came from a project written by [Malte Tewes](https://astro.uni-bonn.de/~mtewes/wiki/doku.php). His program, [QCgravlens](http://obswww.unige.ch/~tewes/QCgravlens/), uses a webcam on Apple computers to simulate the gravitational lensing according the lens system RXJ1131-1231.
 
-This package is an attempt to bring the idea of his project to a more portable codebase (through the use of python and its libraries) and to expand the interface to allow users to specify their own lens maps. [`gravpy`](https://github.com/rirze/lens-solver) is needed for the second feature, and as such, I want to thank [Chuck Keeton](http://www.physics.rutgers.edu/~keeton/) for developing [`gravlens`](http://xxx.lanl.gov/abs/astro-ph/0102340) ([manual](http://www.physics.rutgers.edu/~keeton/gravlens/manual.pdf)) and for guiding me in writing `gravpy`. 
+This package is an attempt to bring the idea of his project to a more portable codebase (through the use of python and its libraries) and to expand the interface to allow users to specify their own lens maps. [`gravpy`](https://github.com/rirze/lens-solver) is needed for the second feature, and as such, I want to thank [Chuck Keeton](http://www.physics.rutgers.edu/~keeton/) for developing [`gravlens`](http://xxx.lanl.gov/abs/astro-ph/0102340) and for guiding me in writing [`gravpy`](https://github.com/rirze/lens-solver). 
 
 ## Detailed Description
 This programs operates by taking a mesh-map of the source and image plane (provided by gravlens, [python version](https://github.com/rirze/lens-solver)). By using this map, `vidlens` interpolates the missing points in the grid so the transformation between the two planes can be applied to the pixels of an image. Since a video feed is simply a continuous stream of images, we can apply this interpolated transformation image by image to generate a lensed simulation from a webcam. 
@@ -16,7 +16,7 @@ This program is meant to be cross-platform, but comes with the price of installi
 + SciPy
 + OpenCV
 
-`NumPy` and `SciPy` will be installed (if not already) using `pip` during the installation process (`python setup.py install`), *but you will independently need to install [`OpenCV`](https://breakthrough.github.io/Installing-OpenCV/) (which will automatically include the python wrappers)*. Installing `OpenCV` can be either simple or complicated, depending on your machine environment. This program was tested with `OpenCV 2.4.13`, but it ought to work with `OpenCV 3.+`, since version should not matter in regards to the operations of this package.
+`NumPy` and `SciPy` will be installed (if not already) using `pip` during the installation process (`python setup.py install`), **but you will independently need to install [`OpenCV`](https://breakthrough.github.io/Installing-OpenCV/) (which will automatically include the python wrappers)**. Installing `OpenCV` can be either simple or complicated, depending on your machine environment. This program was tested with `OpenCV 2.4.13`, but it ought to work with `OpenCV 3.+`, since version should not matter in regards to the operations of this package.
 
 #### Recommended
 + [gravpy](https://github.com/rirze/lens-solver): for specifying custom lens maps. If you are interested in creating your own gravitation lens system to simulate, this package is needed. Look below for how to define your own lens maps. 
@@ -34,7 +34,7 @@ Make sure to use proper permissions, as always, when installing python packages.
 ## Quickstart
 If you simply want to run a sample demo, I highly suggest looking through the examples folder for some example simulations. I would recommend running these ones first:
 + `sie_lens`
-+ `qt_gui_sie`
++ `qt_gui_sie` (If you have a `pyqt` library installed, along with `qtpy`, which is needed for the qt interface in `vidlens`)
 + `qc_demo` (This one is a retest of Malte Tewes' program, using his input files for RXJ1131-1231)
 
 If you have [gravpy](https://github.com/rirze/lens-solver) installed, then feel free to run the folders with `gravpy` in the directory name. 
