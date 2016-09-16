@@ -170,9 +170,9 @@ class VideoLens:
         if self.draw_caustics:
             self.caustics = np.array(self.caustics) / self.pixelscale
             [self.critx, self.crity], [self.caustx, self.causty] = self.caustics
-            self.critx = self.critx.astype('int') + self.width / 2
-            self.crity = self.crity.astype('int') + self.height / 2
-            self.caustx = self.caustx.astype('int') + self.width / 2
+            self.critx  = self.critx.astype('int')  + self.width  / 2
+            self.crity  = self.crity.astype('int')  + self.height / 2
+            self.caustx = self.caustx.astype('int') + self.width  / 2
             self.causty = self.causty.astype('int') + self.height / 2
 
     # @profile
