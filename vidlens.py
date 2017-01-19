@@ -238,12 +238,12 @@ class VideoLens:
         # TODO: Implement flexible saving mechanism, define custom save
         # function based on file extension
         if extension == 'npy':
-            if len(file_names) == 1:
+            if len(full_file_names) == 1:
                 temp_totind = np.array(self.get_2D_coords(self.totind))
                 temp_totind = temp_totind.reshape(
                     (2, self.height, self.width)).transpose([1, 2, 0])
                 np.save(full_file_names[0], temp_totind)
-            if len(file_names) == 2:
+            elif len(full_file_names) == 2:
                 np.save(full_file_names[0], self.get_2D_coords(self.xind))
                 np.save(full_file_names[1], self.get_2D_coords(self.yind))
             else:
