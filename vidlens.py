@@ -46,7 +46,8 @@ class VideoLens:
             raise RuntimeError("Camera failed to take image.")
 
         vid_height, vid_width = frame.shape[0:2]
-
+        self.vid_height = vid_height
+        self.vid_width  = vid_width
         self.height = height if height else vid_height
         self.width = width if width else vid_width
 
@@ -59,8 +60,8 @@ class VideoLens:
         if dims is None:
             dims = (self.height, self.width)
         return np.unravel_index(np.array(arr.ravel()), dims)
-
-    def crop(self, arr):
+    
+    def crop(self, arr, mapping=False):
         img_height, img_width = arr.shape[0:2]
         if img_height < self.height or img_width < self.width:
             raise ValueError(
@@ -69,14 +70,22 @@ class VideoLens:
         dif_height = (img_height - self.height) / 2
         dif_width = (img_width - self.width) / 2
 
+        
         if dif_height == 0 and dif_width == 0:
             return arr
         elif dif_height == 0:
-            return arr[:, dif_width:-dif_width]
+            newarr = arr[:, dif_width:-dif_width]
         elif dif_width == 0:
-            return arr[dif_height:-dif_height, :]
+            newarr = arr[dif_height:-dif_height, :]
         else:
-            return arr[dif_height:-dif_height, dif_width:-dif_width]
+            newarr = arr[dif_height:-dif_height, dif_width:-dif_width]
+
+        if mapping:
+            newarr[:,:,0] -= dif_height
+            newarr[:,:,1] -= dif_width
+
+        return newarr
+            
 
     def process_lensinfo(self, lensinfo):
 
@@ -100,11 +109,11 @@ class VideoLens:
         if isinstance(lensinfo, coll.Iterable) and isinstance(
                 lensinfo[0], str):
             if len(lensinfo) == 1:
-                temp_totind = self.crop(open_and_load_file(lensinfo[0]))
+                temp_totind = self.crop(open_and_load_file(lensinfo[0]), mapping=True)
                 # shape: (height, width, 2) -^
                 v_and_u = temp_totind.transpose([2, 0, 1])
                 # shape (2, height, width) -^
-
+                
                 self.totind = self.get_1D_coords(v_and_u)
 
             elif len(lensinfo) == 2:
@@ -132,7 +141,8 @@ class VideoLens:
                 str(lensinfo))
 
     def interpolate(self):
-
+        # the real meat of this process
+        
         ximin = -self.width / 2.0 + 1.0
         ximax = self.width / 2.0
         yimin = -self.height / 2.0 + 1.0
