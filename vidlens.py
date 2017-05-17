@@ -25,7 +25,7 @@ class VideoLens:
         self.process_lensinfo(lensinfo)
 
     def list_uis(self):
-        return ['cv', 'qt']
+        return ['cv', 'qt', 'pg']
 
     def setup_camera(self):
         self.vid_cap = cv2.VideoCapture(0)
@@ -277,7 +277,10 @@ class VideoLens:
         elif self.ui is 'qt':
             import qtgui
             qtgui.lens_start(self)
-
+        elif self.ui is 'pg':
+            import pyqtgraphgui as pgg
+            pgg.lens_start(self)
+            
         # When everything done, release the capture
         self.vid_cap.release()
 
