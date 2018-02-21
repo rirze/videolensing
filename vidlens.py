@@ -48,8 +48,11 @@ class VideoLens:
         vid_height, vid_width = frame.shape[0:2]
         self.vid_height = vid_height
         self.vid_width  = vid_width
-        self.height = height if height else vid_height
-        self.width = width if width else vid_width
+        # if the given dimensions are higher than what the webcam can capture,
+        # ignore them and go with the highest it can capture.
+        # otherwise stick with given dimensions (that are obviously smaller than max)
+        self.height = height if vid_height>height else vid_height
+        self.width = width if vid_width>width else vid_width
 
     def get_1D_coords(self, arr, dims=None):
         if dims is None:
@@ -65,7 +68,9 @@ class VideoLens:
         img_height, img_width = arr.shape[0:2]
         if img_height < self.height or img_width < self.width:
             raise ValueError(
-                "Interpolation given is not large enough for video frame dimensions")
+                "Interpolation given is not large enough for video frame dimensions: " +
+                "mapping is of dimensions " + str(img_height) + ", " + str(img_width) +
+                ", while video is capturing at " + str(self.height) + ", " + str(self.width))
 
         dif_height = (img_height - self.height) / 2
         dif_width = (img_width - self.width) / 2
