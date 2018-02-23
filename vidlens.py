@@ -51,8 +51,8 @@ class VideoLens:
         # if the given dimensions are higher than what the webcam can capture,
         # ignore them and go with the highest it can capture.
         # otherwise stick with given dimensions (that are obviously smaller than max)
-        self.height = height if vid_height>height else vid_height
-        self.width = width if vid_width>width else vid_width
+        self.height = height if height and vid_height>height else vid_height
+        self.width  = width  if width  and vid_width >width  else vid_width
 
     def get_1D_coords(self, arr, dims=None):
         if dims is None:
